@@ -1,0 +1,14 @@
+Para que el back end pueda comunicarse con el front-end (en entorno de desarrollo)
+en el package.json del front-end se agrega esta configuracion (ejm)
+
+  "proxy": {
+    "/auth/google": {
+      "target" : "http://localhost:5000"
+    } 
+  },
+
+donde 5000 es el puerto donde se da el backend y se da la autenticacion con google (por ejemplo)
+
+luego en el front-end te puedes dirigir a rutas del back end con normalidad
+  ejm 
+    <a href="/auth/google">Sign in with Google</a>

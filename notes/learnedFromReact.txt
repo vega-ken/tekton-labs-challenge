@@ -1,0 +1,66 @@
+si quieres llevar el track de un state en un componente es mejor convertirlo de functional component a class based component
+
+  functional component
+    const SearchBar = () => {
+      return <input />; 
+    };
+
+  class based component
+
+    class SearchBar extends Component {
+      constructor(props) {
+        super(props);
+
+        this.state = { term: '' };
+      }
+      render() {
+        return (
+          <div>
+            <input
+              value={this.state.term}
+              onChange={event => this.setState({ term: event.target.value })}
+            />
+            value of input : {this.state.term}
+          </div>
+        );
+      }
+    }
+
+  otro ejemplo de functional component
+
+    const App = () => {
+      return (
+        <div>
+          <SearchBar />
+        </div>
+      );
+    };
+
+  otro ejemplo de class based component
+
+    class App extends Component {
+      render() {
+        return (
+          <div>
+            <SearchBar />
+          </div>
+        );
+      }
+    }
+
+--
+
+cuando un input tiene value de 
+
+value = {this.state.term};
+
+se vuelve un controlled component
+
+así que su valor solo cambia cuando haces que state.term cambie
+  ya no importa si escribes en el input, solo si haces que term cambie de alguna manera, el valor del input cambiara 
+
+----
+
+para pasar informacion de un componente a otro se le asigna un atributo y como valor parte del state
+  ya en el componente se trae props y se puede acceder a esta a traves de this.props.property
+
