@@ -1,6 +1,15 @@
-#tekton labs challenge
+# tekton labs challenge
 
-Prueba técnica de Tekton labs
+## Para ejecutar ambos servidores de manera local
+
+```
+npm install
+npm run dev
+```
+
+Se ejecutan en los puertos 5000(servidor) y 3000(cliente) por lo que se debería tener esos puertos libres antes de iniciarlos.
+
+## Prueba técnica de Tekton labs
 
 * La prueba técnica consiste en desarrollar una aplicación para restaurantes.
 * Requerimientos funcionales:
