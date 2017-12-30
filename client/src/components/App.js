@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
 import Header from './header';
-//import Login from './login';
+import Login from './login';
 import Register from './register';
 import AddOrder from './add-order';
+
+import { BrowserRouter, Route } from 'react-router-dom';
 
 //Aun no entiendo bien como se eligen ciertos componentes dependiendo de la ruta en la que te encuentras
 // por eso estoy poniendo varias vistas en la misma ruta principal
@@ -21,8 +23,13 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <Register />
-        <AddOrder />
+        <BrowserRouter>
+          <div>
+            <Route path="/register" component={Register} />
+            <Route path="/login" component={Login} />
+            <Route path="/add-order" component={AddOrder} />
+          </div>
+        </BrowserRouter>
       </div>
     );
   }

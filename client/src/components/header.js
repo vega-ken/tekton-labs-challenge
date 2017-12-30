@@ -33,12 +33,12 @@ const Header = props => {
           </ul>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <a href="/users/login" className="nav-link">
+              <a href="/login" className="nav-link">
                 Login
               </a>
             </li>
             <li className="nav-item">
-              <a href="/users/register" className="nav-link">
+              <a href="/register" className="nav-link">
                 Register
               </a>
             </li>
