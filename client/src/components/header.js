@@ -33,6 +33,16 @@ const Header = props => {
           </ul>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
+              <a href="/manage-orders" className="nav-link">
+                Orders
+              </a>
+            </li>
+            <li className="nav-item">
+              <a href="/add-order" className="nav-link">
+                Add Order
+              </a>
+            </li>
+            <li className="nav-item">
               <a href="/login" className="nav-link">
                 Login
               </a>

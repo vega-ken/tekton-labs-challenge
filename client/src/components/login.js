@@ -13,7 +13,7 @@ class Login extends Component {
         <div className="row">
           <div className="col-md-6 mx-auto">
             <div className="card card-body">
-              <img className="logo" src="/img/logo.png" alt="logo" />
+              {/*<img className="logo" src="/img/logo.png" alt="logo" />*/}
               <h3 className="text-center">Account Login</h3>
               <form method="post" action="/users/login">
                 <div className="form-group">

@@ -13,6 +13,10 @@ class AddOrder extends Component {
     // agregue el input numero de platos para facilitar el proceso
     // debe haber un equivalente al ngFor aqui en React para poder renderizar varias veces el form que indica el plato y su precio
 
+    // puede que este componente contenga otro que cambie por el numero de platos escogidos.
+    // con map y el numero seguro que se puede renderizar varias veces ese componente
+    // ademas ese componente tiene que conseguir los platos y sus respectivos precios
+
     this.state = {};
   }
 
