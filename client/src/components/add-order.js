@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class AddOrder extends Component {
   constructor(props) {
@@ -18,6 +19,11 @@ class AddOrder extends Component {
     // ademas ese componente tiene que conseguir los platos y sus respectivos precios
 
     this.state = {};
+
+    axios.get('/users/test').then(response => {
+      console.log('respuesta del servidor nodejs');
+      console.log(response);
+    });
   }
 
   render() {

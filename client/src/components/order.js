@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 class Order extends Component {
+  //vista para el usuario chef
+
   //este componente deberia hacer un fetch a una ruta del servidor nodejs para conseguir las ordenes.
 
   //luego guardar esa informacion en el state para luego renderizarla

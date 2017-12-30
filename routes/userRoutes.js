@@ -11,6 +11,10 @@ const User = mongoose.model('users');
 //manejo de rutas
 const router = express.Router();
 
+router.get('/test', (req, res) => {
+  res.json({ respuesta: 'respuesta value' }).end();
+});
+
 router.post('/register', (req, res) => {
   //console.log('El usuario ha enviado informacion para registrarse: ');
   //console.log(req.body);
