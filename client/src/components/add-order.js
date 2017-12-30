@@ -18,11 +18,17 @@ class AddOrder extends Component {
     // con map y el numero seguro que se puede renderizar varias veces ese componente
     // ademas ese componente tiene que conseguir los platos y sus respectivos precios
 
-    this.state = {};
+    this.state = {
+      dishes: []
+    };
 
-    axios.get('/users/test').then(response => {
+    // consigue los platos de la BD
+    axios.get('/orders/getDishes').then(response => {
       console.log('respuesta del servidor nodejs');
-      console.log(response);
+      console.log(response.data.dishes);
+      this.setState({
+        dishes: response.data.dishes
+      });
     });
   }
 
@@ -96,12 +102,20 @@ class AddOrder extends Component {
                       list="dishesAvailable"
                     />
 
-                    <datalist id="dishesAvailable">
+                    <datalist id="dishesAvailable2">
                       <option value="Lomo Saltado" />
                       <option value="Pure con Pollo al Horno" />
                       <option value="Arroz con Pollo" />
                       <option value="Arroz Chaufa" />
                       <option value="Arroz con Mariscos" />
+                    </datalist>
+
+                    <datalist id="dishesAvailable">
+                      {this.state.dishes
+                        ? this.state.dishes.map(dish => (
+                            <option value={dish.dishName} key={dish._id} />
+                          ))
+                        : null}
                     </datalist>
                   </div>
                   <div className="form-group col-4">
