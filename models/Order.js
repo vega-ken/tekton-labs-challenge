@@ -20,15 +20,10 @@ const OrderSchema = new Schema({
     required: true
   },
   detailsOrder: [
-    //lista de platos, cada uno con su precio
     {
-      nameDish: {
-        type: String,
-        required: true
-      },
-      priceDish: {
-        type: Number,
-        required: true
+      dish: {
+        type: Schema.Types.ObjectId,
+        ref: 'dishes'
       }
     }
   ],

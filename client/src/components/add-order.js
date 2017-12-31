@@ -29,6 +29,7 @@ class AddOrder extends Component {
       this.setState({
         dishes: response.data.dishes
       });
+      console.log(this.state.dishes);
     });
   }
 
