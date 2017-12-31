@@ -19,17 +19,42 @@ class AddOrder extends Component {
     // ademas ese componente tiene que conseguir los platos y sus respectivos precios
 
     this.state = {
-      dishes: []
+      dishes: [],
+      numberDishes: 1,
+      dishPrice: ''
     };
 
     // consigue los platos de la BD
     axios.get('/orders/getDishes').then(response => {
       console.log('respuesta del servidor nodejs');
-      console.log(response.data.dishes);
       this.setState({
         dishes: response.data.dishes
       });
-      console.log(this.state.dishes);
+    });
+
+    this.onNumberDishesChange = this.onNumberDishesChange.bind(this);
+    this.onSelectingDish = this.onSelectingDish.bind(this);
+  }
+
+  onNumberDishesChange(event) {
+    //console.log(event.target.value);
+    this.setState({
+      numberDishes: event.target.value
+    });
+  }
+
+  onSelectingDish(event) {
+    //console.log(event.target.value);
+    // si el valor de este input es igual al de uno de los platos. entonces muestra su precio en el estado
+    this.state.dishes.map(dish => {
+      //      console.log(dish.dishName);
+      if (dish.dishName === event.target.value) {
+        console.log('si está este plato');
+        console.log('su precio es :', dish.dishPrice);
+        this.setState({
+          dishPrice: dish.dishPrice
+        });
+      }
     });
   }
 
@@ -86,6 +111,8 @@ class AddOrder extends Component {
                       min="1"
                       name="dishNumber"
                       className="form-control"
+                      value={this.state.numberDishes}
+                      onChange={this.onNumberDishesChange}
                       required
                     />
                   </div>
@@ -101,15 +128,8 @@ class AddOrder extends Component {
                       className="form-control"
                       id="dishName1"
                       list="dishesAvailable"
+                      onChange={this.onSelectingDish}
                     />
-
-                    <datalist id="dishesAvailable2">
-                      <option value="Lomo Saltado" />
-                      <option value="Pure con Pollo al Horno" />
-                      <option value="Arroz con Pollo" />
-                      <option value="Arroz Chaufa" />
-                      <option value="Arroz con Mariscos" />
-                    </datalist>
 
                     <datalist id="dishesAvailable">
                       {this.state.dishes
@@ -121,7 +141,12 @@ class AddOrder extends Component {
                   </div>
                   <div className="form-group col-4">
                     <label htmlFor="dishPrice">Price</label>
-                    <input type="text" className="form-control" readOnly />
+                    <input
+                      type="text"
+                      className="form-control"
+                      readOnly
+                      value={this.state.dishPrice}
+                    />
                   </div>
                 </div>
 
