@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import AddOrderTesting from './add-order-testing';
+
 import axios from 'axios';
 
 class AddOrderDetail extends Component {
@@ -20,6 +22,12 @@ class AddOrderDetail extends Component {
 
     this.onNumberDishesChange = this.onNumberDishesChange.bind(this);
     this.onSelectingDish = this.onSelectingDish.bind(this);
+    //this.showDishItems = this.showDishItems.bind(this);
+
+    /*this.state.dishes.map(dish => {
+      console.log(dish);
+      return <p>plato</p>;
+    });*/
   }
 
   onNumberDishesChange(event) {
@@ -33,7 +41,7 @@ class AddOrderDetail extends Component {
     //console.log(event.target.value);
     // si el valor de este input es igual al de uno de los platos. entonces muestra su precio en el estado
     this.state.dishes.map(dish => {
-      //      console.log(dish.dishName);
+      //console.log(dish.dishName);
       if (dish.dishName === event.target.value) {
         console.log('si está este plato');
         console.log('su precio es :', dish.dishPrice);
@@ -41,8 +49,16 @@ class AddOrderDetail extends Component {
           dishPrice: dish.dishPrice
         });
       }
+      return 1; // evita el warning, pero no creo que sea buena practica. TODO : investigar
     });
   }
+
+  /*showDishItems() {
+    this.state.dishes.map(dish => {
+      console.log(dish);
+      return <p>plato</p>;
+    });
+  }*/
 
   render() {
     return (
@@ -57,16 +73,19 @@ class AddOrderDetail extends Component {
               min="1"
               name="dishNumber"
               className="form-control"
-              value={
-                '' /*value={this.state.numberDishes}
-    onChange={this.onNumberDishesChange}*/
-              }
+              value={this.state.numberDishes}
+              onChange={this.onNumberDishesChange}
               required
             />
           </div>
         </div>
 
         <hr />
+
+        <AddOrderTesting
+          dishes={this.state.dishes}
+          numberDishes={this.state.numberDishes}
+        />
 
         <div className="form-row">
           <div className="form-group col-8">
