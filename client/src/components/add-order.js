@@ -28,7 +28,7 @@ const AddOrder = props => {
                   value="card"
                 />
                 <label className="form-check-label" htmlFor="inlineRadio1">
-                  Tarjeta
+                  Card
                 </label>
               </div>
               <div className="form-check form-check-inline">
@@ -40,7 +40,7 @@ const AddOrder = props => {
                   value="cash"
                 />
                 <label className="form-check-label" htmlFor="inlineRadio2">
-                  Efectivo
+                  Cash
                 </label>
               </div>
 

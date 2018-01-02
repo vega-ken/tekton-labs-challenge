@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import AddOrderTesting from './add-order-testing';
-
 import axios from 'axios';
 
 class AddOrderDetail extends Component {
@@ -10,11 +8,10 @@ class AddOrderDetail extends Component {
     this.state = {
       dishes: [],
       numberDishes: 1,
-      dishPrice: ''
+      dishesSelected: []
     };
 
     axios.get('/orders/getDishes').then(response => {
-      console.log('respuesta del servidor nodejs');
       this.setState({
         dishes: response.data.dishes
       });
@@ -22,45 +19,112 @@ class AddOrderDetail extends Component {
 
     this.onNumberDishesChange = this.onNumberDishesChange.bind(this);
     this.onSelectingDish = this.onSelectingDish.bind(this);
-    //this.showDishItems = this.showDishItems.bind(this);
-
-    /*this.state.dishes.map(dish => {
-      console.log(dish);
-      return <p>plato</p>;
-    });*/
+    this.updatingPrice = this.updatingPrice.bind(this);
   }
 
   onNumberDishesChange(event) {
-    //console.log(event.target.value);
+    //console.log('valor actual del arreglo dishesSelected : ');
+    //console.log(this.state.dishesSelected);
     this.setState({
       numberDishes: event.target.value
     });
   }
 
   onSelectingDish(event) {
-    //console.log(event.target.value);
-    // si el valor de este input es igual al de uno de los platos. entonces muestra su precio en el estado
-    this.state.dishes.map(dish => {
-      //console.log(dish.dishName);
-      if (dish.dishName === event.target.value) {
-        console.log('si está este plato');
-        console.log('su precio es :', dish.dishPrice);
+    //tomar el valor del input, si es de un texto que está en datalist. agregarlo al estado con una llave
+    let id = event.target.id.slice(8);
+    id = parseInt(id, 10);
+    let dummyArray = [];
+
+    let element = document.getElementById(`dishPrice${id}`);
+
+    this.state.dishesSelected.map((dishSelected, index) => {
+      // si ya existe objeto con ese id, se borra antes de guardar el nuevo
+      if (dishSelected.dishId === id) {
+        dummyArray = this.state.dishesSelected;
+        dummyArray.splice(index, 1);
         this.setState({
+          dishesSelected: dummyArray
+        });
+
+        element.value = null;
+      }
+      return 1; // evita el warning
+    });
+
+    this.state.dishes.map(dish => {
+      if (dish.dishName === event.target.value) {
+        dummyArray = this.state.dishesSelected;
+        dummyArray.push({
+          dishId: id,
+          dishName: dish.dishName,
           dishPrice: dish.dishPrice
         });
+
+        this.setState(
+          {
+            dishesSelected: dummyArray
+          },
+          this.updatingPrice(id, dish.dishPrice)
+        );
       }
-      return 1; // evita el warning, pero no creo que sea buena practica. TODO : investigar
+      return 1; // evita el warning
     });
   }
 
-  /*showDishItems() {
-    this.state.dishes.map(dish => {
-      console.log(dish);
-      return <p>plato</p>;
+  updatingPrice(id, dishPrice) {
+    // actualizar el valor a traves del DOM
+    let element = document.getElementById(`dishPrice${id}`);
+    element.value = dishPrice;
+
+    // actualizar el valor del precio total
+
+    let totalOwed = 0;
+
+    this.state.dishesSelected.map(dish => {
+      totalOwed += dish.dishPrice;
+      return 1;
     });
-  }*/
+
+    let element2 = document.getElementById('totalOwed');
+    element2.value = totalOwed;
+  }
 
   render() {
+    let items = [];
+    let dishNameId = '';
+    let dishPriceId = '';
+
+    for (let i = 0; i < this.state.numberDishes; i++) {
+      dishNameId = `dishName${i}`;
+      dishPriceId = `dishPrice${i}`;
+
+      items.push(
+        <div className="form-row" key={i}>
+          <div className="form-group col-8">
+            <label htmlFor={dishNameId}>Dish number {i + 1}</label>
+            <input
+              type="text"
+              className="form-control input-name-dishes"
+              id={dishNameId}
+              list="dishesAvailable"
+              onChange={this.onSelectingDish}
+            />
+          </div>
+          <div className="form-group col-4">
+            <label htmlFor={dishPriceId}>Price</label>
+            <input
+              type="number"
+              className="form-control"
+              id={dishPriceId}
+              readOnly
+              required
+            />
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div>
         <div className="form-group row mt-3">
@@ -69,7 +133,7 @@ class AddOrderDetail extends Component {
           </label>
           <div className="col-4">
             <input
-              type="Number"
+              type="number"
               min="1"
               name="dishNumber"
               className="form-control"
@@ -82,40 +146,15 @@ class AddOrderDetail extends Component {
 
         <hr />
 
-        <AddOrderTesting
-          dishes={this.state.dishes}
-          numberDishes={this.state.numberDishes}
-        />
+        {items}
 
-        <div className="form-row">
-          <div className="form-group col-8">
-            <label htmlFor="dishName1">DishName Number #</label>
-            <input
-              type="text"
-              className="form-control"
-              id="dishName1"
-              list="dishesAvailable"
-              value={'' /*onChange={this.onSelectingDish}*/}
-            />
-
-            <datalist id="dishesAvailable">
-              {/*{this.state.dishes
-                ? this.state.dishes.map(dish => (
-                    <option value={dish.dishName} key={dish._id} />
-                  ))
-                : null}*/}
-            </datalist>
-          </div>
-          <div className="form-group col-4">
-            <label htmlFor="dishPrice">Price</label>
-            <input
-              type="text"
-              className="form-control"
-              readOnly
-              value={'' /*value={this.state.dishPrice}*/}
-            />
-          </div>
-        </div>
+        <datalist id="dishesAvailable">
+          {this.state.dishes
+            ? this.state.dishes.map(dish => (
+                <option value={dish.dishName} key={dish._id} />
+              ))
+            : null}
+        </datalist>
 
         <hr />
 
@@ -125,10 +164,11 @@ class AddOrderDetail extends Component {
           </label>
           <div className="col-4">
             <input
-              type="Number"
+              type="number"
               className="form-control"
               id="totalOwed"
               readOnly
+              required
             />
           </div>
         </div>
