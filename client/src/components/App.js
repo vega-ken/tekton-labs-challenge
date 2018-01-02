@@ -5,13 +5,10 @@ import Login from './login';
 import Register from './register';
 import AddOrder from './add-order';
 import Order from './order';
+import About from './about';
+import Home from './home';
 
 import { BrowserRouter, Route } from 'react-router-dom';
-
-//Aun no entiendo bien como se eligen ciertos componentes dependiendo de la ruta en la que te encuentras
-// por eso estoy poniendo varias vistas en la misma ruta principal
-
-//en base al rol del usuario se mostrara una distinta vista al final
 
 class App extends Component {
   constructor(props) {
@@ -30,6 +27,8 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <Route path="/add-order" component={AddOrder} />
             <Route path="/manage-orders" component={Order} />
+            <Route path="/about" component={About} />
+            <Route exact path="/" component={Home} />
           </div>
         </BrowserRouter>
       </div>

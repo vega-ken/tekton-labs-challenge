@@ -46,19 +46,4 @@ class Login extends Component {
   }
 }
 
-/*
-const Login = props => {
-  return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-6 mx-auto">
-          <div className="card card-body">
-            <h3>Login Form</h3>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};*/
-
 export default Login;

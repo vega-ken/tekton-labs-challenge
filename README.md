@@ -1,4 +1,4 @@
-# tekton labs challenge
+# Tekton labs challenge
 
 ## Para ejecutar ambos servidores de manera local
 
