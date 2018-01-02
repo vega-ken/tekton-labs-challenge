@@ -21,6 +21,12 @@ router.get('/getDishes', (req, res) => {
   });
 });
 
+router.get('/getOrders', (req, res) => {
+  Order.find({}).then(orders => {
+    res.json({ orders: orders }).end();
+  });
+});
+
 router.post('/add', (req, res) => {
   console.log(req.body);
 

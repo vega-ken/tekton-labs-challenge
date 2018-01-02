@@ -86,7 +86,7 @@ class AddOrderDetail extends Component {
 
     document.getElementById('totalOwed').value = totalOwed;
 
-    console.log(idDishDB);
+    //console.log(idDishDB);
 
     document.getElementById(`dishIdDB${id}`).value = idDishDB;
   }
