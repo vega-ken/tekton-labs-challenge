@@ -65,20 +65,18 @@ class AddOrderDetail extends Component {
           {
             dishesSelected: dummyArray
           },
-          this.updatingPrice(id, dish.dishPrice)
+          this.updatingPrice(id, dish.dishPrice, dish._id)
         );
       }
       return 1; // evita el warning
     });
   }
 
-  updatingPrice(id, dishPrice) {
-    // actualizar el valor a traves del DOM
-    let element = document.getElementById(`dishPrice${id}`);
-    element.value = dishPrice;
+  updatingPrice(id, dishPrice, idDishDB) {
+    // actualizar el valor a traves del DOM del precio del plato
+    document.getElementById(`dishPrice${id}`).value = dishPrice;
 
     // actualizar el valor del precio total
-
     let totalOwed = 0;
 
     this.state.dishesSelected.map(dish => {
@@ -86,18 +84,23 @@ class AddOrderDetail extends Component {
       return 1;
     });
 
-    let element2 = document.getElementById('totalOwed');
-    element2.value = totalOwed;
+    document.getElementById('totalOwed').value = totalOwed;
+
+    console.log(idDishDB);
+
+    document.getElementById(`dishIdDB${id}`).value = idDishDB;
   }
 
   render() {
-    let items = [];
-    let dishNameId = '';
-    let dishPriceId = '';
+    let items = [],
+      dishNameId = '',
+      dishPriceId = '',
+      dishIdDB = '';
 
     for (let i = 0; i < this.state.numberDishes; i++) {
       dishNameId = `dishName${i}`;
       dishPriceId = `dishPrice${i}`;
+      dishIdDB = `dishIdDB${i}`;
 
       items.push(
         <div className="form-row" key={i}>
@@ -109,6 +112,7 @@ class AddOrderDetail extends Component {
               id={dishNameId}
               list="dishesAvailable"
               onChange={this.onSelectingDish}
+              required
             />
           </div>
           <div className="form-group col-4">
@@ -121,6 +125,7 @@ class AddOrderDetail extends Component {
               required
             />
           </div>
+          <input hidden id={dishIdDB} name={dishIdDB} />
         </div>
       );
     }
@@ -128,14 +133,13 @@ class AddOrderDetail extends Component {
     return (
       <div>
         <div className="form-group row mt-3">
-          <label htmlFor="dishNumber" className="col-8 col-form-label">
+          <label htmlFor="numberDishes" className="col-8 col-form-label">
             Number of dishes:
           </label>
           <div className="col-4">
             <input
               type="number"
               min="1"
-              name="dishNumber"
               className="form-control"
               value={this.state.numberDishes}
               onChange={this.onNumberDishesChange}
@@ -167,6 +171,8 @@ class AddOrderDetail extends Component {
               type="number"
               className="form-control"
               id="totalOwed"
+              name="totalOwed"
+              defaultValue="0"
               readOnly
               required
             />

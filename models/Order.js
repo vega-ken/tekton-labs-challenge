@@ -3,7 +3,7 @@ const Schema = mongoose.Schema; // const { Schema } = mongoose;
 
 const OrderSchema = new Schema({
   state: {
-    //Comanda, En proceso, Terminado
+    //Comanded, In process, Completed
     type: String,
     required: true
   },
@@ -15,13 +15,13 @@ const OrderSchema = new Schema({
     type: String,
     required: true
   },
-  TotalOwed: {
+  totalOwed: {
     type: Number,
     required: true
   },
   detailsOrder: [
     {
-      dish: {
+      dishId: {
         type: Schema.Types.ObjectId,
         ref: 'dishes'
       }

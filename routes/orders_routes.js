@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 require('../models/Dish');
 const Dish = mongoose.model('dishes');
 
+require('../models/Order');
+const Order = mongoose.model('orders');
+
 const router = express.Router();
 
 router.get('/getDishes', (req, res) => {
@@ -16,6 +19,42 @@ router.get('/getDishes', (req, res) => {
     //console.log(dishes);
     res.json({ dishes: dishes }).end();
   });
+});
+
+router.post('/add', (req, res) => {
+  console.log(req.body);
+
+  let detailsOrder = [],
+    newDish,
+    dishIdIteration,
+    counter = 0;
+
+  while (1) {
+    dishIdIteration = `dishIdDB${counter}`;
+
+    if (req.body[dishIdIteration]) {
+      newDish = {
+        dishId: req.body[dishIdIteration]
+      };
+
+      detailsOrder.push(newDish);
+      counter++;
+    } else break;
+  }
+
+  const newOrder = {
+    state: 'Comanded',
+    clientName: req.body.clientName,
+    paymentType: req.body.paymentType,
+    totalOwed: req.body.totalOwed,
+    detailsOrder: detailsOrder
+  };
+
+  new Order(newOrder).save().then(order => {
+    console.log(order);
+  });
+
+  res.json({ data: 'data recieved' }).end();
 });
 
 /*router.get('/addDish', (req, res) => {
