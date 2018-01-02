@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-//const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 //const passport = require('passport');
 
 //cargar el modelo usuario
@@ -16,8 +16,9 @@ router.get('/test', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-  //console.log('El usuario ha enviado informacion para registrarse: ');
-  //console.log(req.body);
+  console.log('El usuario ha enviado informacion para registrarse: ');
+  console.log(req.body);
+
   let errors = [];
 
   if (req.body.password != req.body.password2) {
@@ -39,6 +40,9 @@ router.post('/register', (req, res) => {
     console.log('el correo si tiene tekton en su dominio');
   } else {
     //enviar de vuelta a la pagina de registro con la data ingresada
+    errors.push({
+      text: 'solo se pueden registrar personas del dominio tekton'
+    });
     console.log('solo se pueden registrar personas del dominio tekton');
   }
 
@@ -67,15 +71,22 @@ router.post('/register', (req, res) => {
         });
 
         //!!! encriptar contraseña antes de guardarlo
-        newUser
-          .save()
-          .then(newUser => {
-            res.redirect('/users/login');
-          })
-          .catch(err => {
-            console.log(err);
-            return;
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+            newUser
+              .save()
+              .then(newUser => {
+                // enviar mensaje al usuario de alguna manera
+                res.redirect('/login');
+              })
+              .catch(err => {
+                console.log(err);
+                return;
+              });
           });
+        });
       }
     });
   }
